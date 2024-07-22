@@ -12,19 +12,21 @@ export default function App(){
   const[packedAmount,setpackedAmount] = useState(0)
 
 
+
   const itemsHandler = (item) =>{
    setitems( items => [...items, item] )
-
   }
 
   const deleteHandler = (id) => {
     setitems(item => item.filter(item=>item.id !== id))
    }
+
    const toggleHandler = (id) => {
     setitems(item=>item.map(item=> item.id == id ? {...item,packed:!item.packed} : item ))
    }
 
    useEffect(function(){
+
     let count = 0
     items.forEach(item=>{
       if(item.packed){
@@ -38,7 +40,7 @@ export default function App(){
 return(
 <div className="app">
   <Logo/>
-  <Form onAddItems = {itemsHandler}/>
+  <Form onAddItems = {itemsHandler} items = {items} setItems = {setitems}/>
   <PackingList items ={items} onDeleteItems = {deleteHandler} onToggleItems = {toggleHandler}/>
   <Status amount={items.length} packedAmount = {packedAmount}/>
 </div>
@@ -50,7 +52,7 @@ function Logo(){
   return <h1>🌴 Far away 👜</h1>
 }
 
-function Form({onAddItems}){
+function Form({onAddItems,items}){
   const[discription,setDiscription] = useState('')
   const [quantity,setquantity] = useState(1)
   
@@ -59,6 +61,8 @@ function Form({onAddItems}){
   if(!discription) return;
    const newItem = ({discription,quantity,isPacked:false,id:Date.now()})
    onAddItems(newItem)
+
+
    setDiscription('')
    setquantity(1)
   }
@@ -104,7 +108,7 @@ function Item({item,onDeleteItems,onToggleItems}){
 function Status({amount,packedAmount}){
   return(
     <footer className="stats">
-      <em>👜 You have {amount} items on your list, and you already packed {packedAmount} ( { !amount || !packedAmount ? '0' : Math.ceil((( packedAmount  / amount ) * 100))}% )</em>
+      <em>👜 You have {amount} items on your list, and you already packed {packedAmount} ( {!amount || !packedAmount ? '0' : Math.ceil((( packedAmount  / amount ) * 100))}%)</em>
     </footer>
   )
 }
