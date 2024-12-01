@@ -1,17 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-let initialItems = [
-  {id:1, discription: 'passports', quantity : 2, packed: false},
-  {id:2, discription: 'Socks', quantity : 12, packed: false},
-  {id:3, discription: 'Socks', quantity : 8, packed: true},
-]
-
 export default function App(){
   const [items,setitems] = useState([])
   const[packedAmount,setpackedAmount] = useState(0)
-
-
 
   const itemsHandler = (item) =>{
    setitems( items => [...items, item] )
@@ -26,7 +18,6 @@ export default function App(){
    }
 
    useEffect(function(){
-
     let count = 0
     items.forEach(item=>{
       if(item.packed){
@@ -61,8 +52,6 @@ function Form({onAddItems,items}){
   if(!discription) return;
    const newItem = ({discription,quantity,isPacked:false,id:Date.now()})
    onAddItems(newItem)
-
-
    setDiscription('')
    setquantity(1)
   }
@@ -89,14 +78,13 @@ function PackingList({items,onDeleteItems,onToggleItems}){
   return <div className="list">
     <ul>
       {
-        items.map( item => <Item item={item} onDeleteItems = {onDeleteItems} onToggleItems = {onToggleItems} key={item.id} /> )
+        items.map(item => <Item item={item} onDeleteItems = {onDeleteItems} onToggleItems = {onToggleItems} key={item.id} /> )
       }
     </ul> 
   </div>
 }
 
 function Item({item,onDeleteItems,onToggleItems}){
-
       return (
       <li><span style={item.packed ? {textDecoration:'line-through'}: {}}>{<input type="checkbox" 
       value={item.packed} onChange={()=> onToggleItems(item.id)}/>} 
